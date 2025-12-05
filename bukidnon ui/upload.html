@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Files - Bukidnon Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link:hover {
+            transform: translateX(5px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-gradient-to-b from-green-700 to-green-800 text-white p-6 flex flex-col shadow-2xl">
+        <div class="mb-10 text-center">
+            <img src="img/bukidnon_logo.png" alt="Bukidnon Logo" class="w-28 h-28 object-contain rounded-full mx-auto border-4 border-white shadow-lg">
+            <h2 class="mt-4 text-xl font-bold">Bukidnon Admin</h2>
+            <p class="text-green-200 text-sm">Management Portal</p>
+        </div>
+
+        <nav class="flex-grow space-y-2">
+            <a href="dashboard.html" class="nav-link flex items-center gap-3 text-white hover:bg-green-600 px-4 py-3 rounded-lg hover:pl-6">
+                <i class="fas fa-tachometer-alt text-lg"></i>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <a href="users.html" class="nav-link flex items-center gap-3 text-white hover:bg-green-600 px-4 py-3 rounded-lg hover:pl-6">
+                <i class="fas fa-users text-lg"></i>
+                <span class="font-medium">Users</span>
+            </a>
+            <a href="analytics.html" class="nav-link flex items-center gap-3 text-white hover:bg-green-600 px-4 py-3 rounded-lg hover:pl-6">
+                <i class="fas fa-chart-line text-lg"></i>
+                <span class="font-medium">Analytics</span>
+            </a>
+            <a href="upload-files.html" class="nav-link flex items-center gap-3 bg-green-600 px-4 py-3 rounded-lg hover:bg-green-500 hover:pl-6">
+                <i class="fas fa-cloud-upload-alt text-lg"></i>
+                <span class="font-medium">Upload Files</span>
+            </a>
+            <a href="settings.html" class="nav-link flex items-center gap-3 text-white hover:bg-green-600 px-4 py-3 rounded-lg hover:pl-6">
+                <i class="fas fa-cogs text-lg"></i>
+                <span class="font-medium">Settings</span>
+            </a>
+            <a href="roles.html" class="nav-link flex items-center gap-3 text-white hover:bg-green-600 px-4 py-3 rounded-lg hover:pl-6">
+                <i class="fas fa-user-shield text-lg"></i>
+                <span class="font-medium">Roles</span>
+            </a>
+        </nav>
+
+        <div class="mt-auto pt-6 border-t border-green-600">
+            <a href="login.html" class="flex items-center gap-3 text-white hover:bg-red-600 px-4 py-3 rounded-lg transition duration-300">
+                <i class="fas fa-sign-out-alt text-lg"></i>
+                <span class="font-medium">Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-8">
+        <!-- Header -->
+        <header class="bg-white shadow-md sticky top-0 z-10">
+            <div class="flex justify-between items-center px-8 py-4">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Upload Files</h1>
+                    <p class="text-gray-500 text-sm mt-1">Upload all necessary documents for verification and enrollment</p>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <div class="text-right">
+                        <p class="font-semibold text-gray-800">John Doe</p>
+                        <p class="text-sm text-gray-500">Administrator</p>
+                    </div>
+                    <div class="relative group">
+                        <img src="uploads/default-profile.png" alt="Profile" 
+                            class="w-14 h-14 rounded-full border-2 border-green-600 shadow-md object-cover cursor-pointer hover:opacity-90 transition-opacity">
+                        <div class="absolute -bottom-1 -right-1 bg-green-600 text-white rounded-full w-7 h-7 flex items-center justify-center shadow-lg pointer-events-none">
+                            <i class="fas fa-camera text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Upload Files Content -->
+        <div class="mt-6">
+            <section class="page fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Main Upload Area -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-lg shadow p-8">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-6">Document Upload</h3>
+                            
+                            <!-- Upload Form -->
+                            <form id="documentUploadForm">
+                                <!-- Upload Dropzone -->
+                                <div id="dropzone" class="border-2 border-dashed border-green-300 rounded-lg p-8 text-center bg-green-50 cursor-pointer hover:border-green-500 transition">
+                                    <div class="mb-4">
+                                        <i class="fas fa-cloud-upload-alt text-5xl text-green-600"></i>
+                                    </div>
+                                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Drag and drop your files here</h4>
+                                    <p class="text-sm text-gray-600 mb-4">or click to browse from your computer</p>
+                                    <p class="text-xs text-gray-500">Supported formats: PDF, JPG, PNG, DOC, DOCX (Max 10MB per file)</p>
+                                </div>
+
+                                <!-- Selected Files Preview -->
+                                <div id="selectedFilesPreview" class="mt-6 hidden">
+                                    <h4 class="text-sm font-semibold text-gray-800 mb-3">Files to Upload</h4>
+                                    <div id="previewList" class="space-y-2 mb-4"></div>
+                                </div>
+
+                                <div class="mt-6 flex gap-3">
+                                    <button type="submit" id="submitBtn" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition hidden">
+                                        <i class="fas fa-cloud-upload-alt mr-2"></i>Upload Files
+                                    </button>
+                                    <button type="button" id="clearBtn" class="px-6 py-2 border rounded-lg text-gray-700 hover:bg-gray-50 transition">
+                                        <i class="fas fa-redo mr-2"></i>Clear Selection
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Required Documents Checklist -->
+                    <div>
+                        <div class="bg-white rounded-lg shadow p-6 sticky top-24">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Required Documents</h3>
+                            <div class="space-y-3">
+                                <label class="flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 text-green-600 mt-1">
+                                    <div>
+                                        <p class="font-medium text-gray-800 text-sm">Good Moral Form</p>
+                                        <p class="text-xs text-gray-500">From previous school</p>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 text-green-600 mt-1">
+                                    <div>
+                                        <p class="font-medium text-gray-800 text-sm">Form 137</p>
+                                        <p class="text-xs text-gray-500">School report card</p>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 text-green-600 mt-1">
+                                    <div>
+                                        <p class="font-medium text-gray-800 text-sm">Birth Certificate</p>
+                                        <p class="text-xs text-gray-500">Official birth certificate</p>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 text-green-600 mt-1">
+                                    <div>
+                                        <p class="font-medium text-gray-800 text-sm">Certificate of Completion</p>
+                                        <p class="text-xs text-gray-500">From Grade 6</p>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 text-green-600 mt-1">
+                                    <div>
+                                        <p class="font-medium text-gray-800 text-sm">ESC Certificate G11 & G12</p>
+                                        <p class="text-xs text-gray-500">Educational Service Contract</p>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 text-green-600 mt-1">
+                                    <div>
+                                        <p class="font-medium text-gray-800 text-sm">Report Card G11 & G12</p>
+                                        <p class="text-xs text-gray-500">Senior high school grades</p>
+                                    </div>
+                                </label>
+
+                                <label class="flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 text-green-600 mt-1">
+                                    <div>
+                                        <p class="font-medium text-gray-800 text-sm">2x2 ID Picture</p>
+                                        <p class="text-xs text-gray-500">Recent passport-style photo</p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Completion Status -->
+                            <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                                <p class="text-sm text-blue-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Completion Status</p>
+                                <div class="w-full bg-blue-200 rounded-full h-2 mt-2">
+                                    <div id="completionBar" class="bg-green-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                                <p class="text-xs text-blue-600 mt-2 font-semibold"><span id="completionText">0</span> of 7 documents submitted</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
